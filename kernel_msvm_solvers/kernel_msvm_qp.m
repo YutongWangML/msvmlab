@@ -1,4 +1,4 @@
-classdef kernel_msvm_qp
+classdef kernel_msvm_qp < kernel_msvm
     %KERNEL_MSVM_QP solves kernel Multiclass SVMs via quadratic programs
     %
     %   Requires CVX
@@ -9,24 +9,18 @@ classdef kernel_msvm_qp
     %   
     
     properties
-        k   % number of classes
-        n   % number of instances
         
         KM  % n x n kernel matrix, where n is the number of instances
-        y   % n vector of class labels from 1 to k
-        
-        C   % regularization parameter
         Q   % QP matrix
+
     end
     
     methods
-        function obj = kernel_msvm_qp(KM,y,k,C)
+        function obj = kernel_msvm_qp(x,y,k,C, ker_fun)
             %KERNEL_MSVM_QP Construct an instance of this class
+            obj@kernel_msvm(x, y, k, C, ker_fun)
             
-            obj.KM = KM;
-            obj.y = y;
-            obj.k = k;
-            obj.C = C;
+            obj.KM = ker_fun(x,x);
             
             rc = reflection_code(k);
 
@@ -34,31 +28,53 @@ classdef kernel_msvm_qp
 
             obj.n = length(y);
             obj.Q = [];
-            for i = 1:n
+            for i = 1:obj.n
                 R = [];
-                for j = 1:n
-                    R =  [R, K(i,j)*rc.rhos{y(i)}*Bi*rc.rhos{y(j)}'];
+                for j = 1:obj.n
+                    R =  [R, obj.KM(i,j)*rc.rhos{y(i)}*Bi*rc.rhos{y(j)}'];
                 end
                 obj.Q = [obj.Q;R];
             end
+
         end
+
         
-        function [x, dual_obj] = solve_WW(obj)
+        function obj = solve_WW(obj)
             % solves the Weston-Watkins SVM via quadratic program using CVX
             %
             %   See https://web.eecs.umich.edu/~yutongw/post/2020/11/06/a-derivation-of-the-weston-watkins-svm-dual-problem/#primal-problem
             %   for the mathematical formula of the objective function
 
-            cvx_begin
-                variable x(n*(k-1))
-                minimize( (1/2)*x'*obj.Q*x - sum(x) )
+            cvx_begin quiet
+                variable a(obj.n*(obj.k-1))
+                minimize( (1/2)*a'*obj.Q*a - sum(a) )
                 subject to
-                x >= 0
-                x <= obj.C
+                a >= 0
+                a <= obj.C
             cvx_end
-
-            dual_obj = sum(x) - (1/2)*x'*obj.Q*x;
+            
+            obj.alphas = obj.reshape_dual_variables(a);
         end
+        
+        
+        
+        function obj = solve_CS(obj)
+            % solves the Crammer-Singer SVM via quadratic program using CVX
+            %
+            %   See https://web.eecs.umich.edu/~yutongw/post/2020/11/06/a-derivation-of-the-weston-watkins-svm-dual-problem/#primal-problem
+            %   for the mathematical formula of the objective function
+            R = (1:(obj.n))'==repelem(1:obj.n,obj.k-1);
+            cvx_begin quiet
+                variable a(obj.n*(obj.k-1))
+                minimize( (1/2)*a'*obj.Q*a - sum(a) )
+                subject to
+                a >= 0
+                R*a <= obj.C
+            cvx_end
+            
+            obj.alphas = obj.reshape_dual_variables(a);
+        end
+        
     end
 end
 
