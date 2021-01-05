@@ -22,7 +22,7 @@ classdef kernel_msvm_qp < kernel_msvm
             
             obj.KM = ker_fun(x,x);
             
-            rc = reflection_code(k);
+            rc = obj.rc;
 
             Bi = rc.Bi;
 
@@ -39,13 +39,13 @@ classdef kernel_msvm_qp < kernel_msvm
         end
 
         
-        function obj = solve_WW(obj)
+        function [dual_objective,obj] = solve_WW(obj)
             % solves the Weston-Watkins SVM via quadratic program using CVX
             %
             %   See https://web.eecs.umich.edu/~yutongw/post/2020/11/06/a-derivation-of-the-weston-watkins-svm-dual-problem/#primal-problem
             %   for the mathematical formula of the objective function
 
-            cvx_begin quiet
+            cvx_begin
                 variable a(obj.n*(obj.k-1))
                 minimize( (1/2)*a'*obj.Q*a - sum(a) )
                 subject to
@@ -54,17 +54,18 @@ classdef kernel_msvm_qp < kernel_msvm
             cvx_end
             
             obj.alphas = obj.reshape_dual_variables(a);
+            dual_objective = sum(a)-(1/2)*a'*obj.Q*a;
         end
         
         
         
-        function obj = solve_CS(obj)
+        function [dual_objective, obj] = solve_CS(obj)
             % solves the Crammer-Singer SVM via quadratic program using CVX
             %
             %   See https://web.eecs.umich.edu/~yutongw/post/2020/11/06/a-derivation-of-the-weston-watkins-svm-dual-problem/#primal-problem
             %   for the mathematical formula of the objective function
             R = (1:(obj.n))'==repelem(1:obj.n,obj.k-1);
-            cvx_begin quiet
+            cvx_begin
                 variable a(obj.n*(obj.k-1))
                 minimize( (1/2)*a'*obj.Q*a - sum(a) )
                 subject to
@@ -73,6 +74,7 @@ classdef kernel_msvm_qp < kernel_msvm
             cvx_end
             
             obj.alphas = obj.reshape_dual_variables(a);
+            dual_objective = sum(a)-(1/2)*a'*obj.Q*a;
         end
         
     end

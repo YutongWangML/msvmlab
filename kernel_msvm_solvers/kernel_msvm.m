@@ -49,7 +49,6 @@ classdef kernel_msvm < handle
             preds = [];
             for i = 1:n_test
                 pred = obj.rc.Bi*sum(reshape(obj.rho_sparse_mat*vec((obj.alphas).*KM(i,:)),2,obj.n),2);
-
                 preds = [preds, pred];
             end
             

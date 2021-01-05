@@ -2,7 +2,7 @@
 ds = syn_data_2F_3C();
 
 % [x,y]=sd.trefoil(33);
-[x,y] = sd.nested_circle(50,pi/2);
+[x,y] = sd.nested_circle(50,pi);
 
 k = 3;
 C = 1;
@@ -10,7 +10,7 @@ sigma_squared = .25;
 ker_fun = get_rbf_KM(sigma_squared);
 kmsvm_qp = kernel_msvm_qp(x,y,k,C,ker_fun);
 tic
-kmsvm_qp.solve_CS();
+kmsvm_qp.solve_WW()
 toc
 %%
 
