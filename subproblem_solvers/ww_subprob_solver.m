@@ -1,6 +1,6 @@
 function beta = ww_subprob_solver(v,C)
-%PROJ_TO_WEDGE6 Summary of this function goes here
-%   Double pointers implementation
+% Solves the subproblem of the Weston-Watkins SVM
+% The time complexity is O(k log k) where k is the number of classes
 
     num_up = 0;
     num_mi = 0;
@@ -51,12 +51,9 @@ function beta = ww_subprob_solver(v,C)
         end
         
         if kkt
-%             UPset = 1:num_up;
-%             MIset = (num_up+1):(num_up + num_mi);
             beta(vdx(1:num_up)) = C;
-            beta(vdx((num_up+1):(num_up + num_mi))) =...
-                v((num_up+1):(num_up + num_mi)) - gam;
-
+            beta(vdx((num_up+1):(num_up + num_mi))) = ...
+                v((num_up+1):(num_up + num_mi)) - gam; 
             break;
         end
         

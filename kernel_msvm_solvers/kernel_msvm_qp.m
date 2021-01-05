@@ -45,7 +45,7 @@ classdef kernel_msvm_qp < kernel_msvm
             %   See https://web.eecs.umich.edu/~yutongw/post/2020/11/06/a-derivation-of-the-weston-watkins-svm-dual-problem/#primal-problem
             %   for the mathematical formula of the objective function
 
-            cvx_begin
+            cvx_begin quiet
                 variable a(obj.n*(obj.k-1))
                 minimize( (1/2)*a'*obj.Q*a - sum(a) )
                 subject to
@@ -65,7 +65,7 @@ classdef kernel_msvm_qp < kernel_msvm
             %   See https://web.eecs.umich.edu/~yutongw/post/2020/11/06/a-derivation-of-the-weston-watkins-svm-dual-problem/#primal-problem
             %   for the mathematical formula of the objective function
             R = (1:(obj.n))'==repelem(1:obj.n,obj.k-1);
-            cvx_begin
+            cvx_begin quiet
                 variable a(obj.n*(obj.k-1))
                 minimize( (1/2)*a'*obj.Q*a - sum(a) )
                 subject to
