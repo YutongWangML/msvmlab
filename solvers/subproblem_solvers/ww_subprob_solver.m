@@ -1,4 +1,7 @@
 function beta = ww_subprob_solver(v,C)
+% MATLAB implementation of the algorithm in
+% https://arxiv.org/abs/2102.05640
+% 
 % Solves the subproblem of the Weston-Watkins SVM
 % The time complexity is O(k log k) where k is the number of classes
 

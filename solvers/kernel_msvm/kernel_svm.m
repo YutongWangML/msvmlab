@@ -1,4 +1,4 @@
-classdef kernel_msvm < handle
+classdef kernel_svm < handle
     %KERNEL_MSVM
     %   abstract base class for the kernel MSVM
     
@@ -10,7 +10,7 @@ classdef kernel_msvm < handle
         x   % data matrix
         y   % label
         
-        rc  % reflection code
+        IC  % involution code
         
         ker_fun     % kernel function
         rho_sparse_mat  %
@@ -20,7 +20,7 @@ classdef kernel_msvm < handle
     
     
     methods
-        function obj = kernel_msvm(x, y, k, C, ker_fun)
+        function obj = kernel_svm(x, y, k, C, ker_fun)
             %KERNEL_MSVM Construct an instance of this class
             %   Detailed explanation goes here
             obj.k = k;
@@ -29,9 +29,8 @@ classdef kernel_msvm < handle
             obj.y = y;
             obj.n = size(x,2);
             obj.ker_fun = ker_fun;
-            rc = reflection_code(k);
-            obj.rc = rc;
-            obj.rho_sparse_mat = sparse(blkdiag(rc.rhos{y}))';
+            obj.IC = involution_code(k);
+            obj.rho_sparse_mat = sparse(blkdiag(obj.IC.rhos{y}))';
             
         end
         
@@ -48,11 +47,11 @@ classdef kernel_msvm < handle
             n_test = size(x_test,2);
             preds = [];
             for i = 1:n_test
-                pred = obj.rc.Bi*sum(reshape(obj.rho_sparse_mat*vec((obj.alphas).*KM(i,:)),2,obj.n),2);
+                pred = obj.IC.Bi*sum(reshape(obj.rho_sparse_mat*vec((obj.alphas).*KM(i,:)),2,obj.n),2);
                 preds = [preds, pred];
             end
             
-            preds = obj.rc.Pi_inv*preds;
+            preds = obj.IC.Pi_inv*preds;
             [~,y_pred] = max(preds,[],1);
         end
     end

@@ -1,18 +1,16 @@
 classdef syn_data_2F_3C < handle
-    %DATASETS_3D Summary of this class goes here
-    %   Detailed explanation goes here
+    % Synthetic datasets with 2 features, 3 classes
     
     properties
         k
-        rc
+        IC
     end
     
     methods
         function obj = syn_data_2F_3C()
-            %DATASETS_3D Construct an instance of this class
-            %   Detailed explanation goes here
+            % Construct an instance of this class
             obj.k = 3;
-            obj.rc = reflection_code(3);
+            obj.IC = involution_code(3);
         end
         
         function [x,y] = circle(obj,n)
@@ -20,16 +18,16 @@ classdef syn_data_2F_3C < handle
             %   Detailed explanation goes here
             thetas = linspace(0,2*pi,n);
             x = [cos(thetas);sin(thetas)];
-            [~,y] = max(obj.rc.Pi_inv*x,[],1);
+            [~,y] = max(obj.IC.Pi_inv*x,[],1);
         end
         
         
-        function [x,y] = nested_circle(obj,n,ang)
+        function [x,y] = nested_circles(obj,n,ang)
+            % Two ciICles inside one another
             if nargin < 3
                 ang = pi/4;
             end
-            %METHOD1 Summary of this method goes here
-            %   Detailed explanation goes here
+            
             [x1,y1] = circle(obj,n);
             [x2,y2] = circle(obj,n);
             x2 = 0.5*x2;
@@ -52,6 +50,22 @@ classdef syn_data_2F_3C < handle
             for i = 1:3
                 thetas = linspace(-pi/2,pi,n)+(i-1)*(2*pi/3);
                 x = [x,p*[cos(thetas); sin(thetas)]+centers(:,i)];
+                y = [y,i*ones(1,n)];
+            end
+        end
+        
+        
+        function [x,y] = GMM(~,n,p)
+            if nargin < 3
+                p = 0.5;
+            end
+            thetas = linspace(0,2*pi,4);
+            
+            centers = [cos(thetas(1:3)); sin(thetas(1:3))];
+            x = [];
+            y = [];
+            for i = 1:3
+                x = [x,p*randn(2,n)+centers(:,i)];
                 y = [y,i*ones(1,n)];
             end
         end

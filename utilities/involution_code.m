@@ -1,6 +1,6 @@
-classdef reflection_code < handle
+classdef involution_code < handle
     
-    % implements the tools associated with the reflection code, a framework
+    % implements the tools associated with the involution code, a framework
     % for working with multiclass learning algorithms
     
     properties
@@ -10,7 +10,9 @@ classdef reflection_code < handle
         
         Pi % v-to-z transformation
         Pi_inv % z-to-v transformation
+        B
         Bi % B inverse matrix
+        
     end
     
     properties (Access = private)
@@ -19,8 +21,8 @@ classdef reflection_code < handle
     
     methods
         
-        function obj = reflection_code(k)
-            % reflection_code constructor
+        function obj = involution_code(k)
+            % involution_code constructor
             obj.k = k;
             obj.rhos = {}; % this is initialized in make_R()
             obj.R = obj.make_R();
@@ -28,6 +30,7 @@ classdef reflection_code < handle
             obj.Pi = [ones(k-1,1), -eye(k-1)];
             obj.Pi_inv = pinv(obj.Pi);
             obj.Bi = ones(k-1,k-1) + eye(k-1);
+            obj.B = inv(obj.Bi);
         end
         
     end
