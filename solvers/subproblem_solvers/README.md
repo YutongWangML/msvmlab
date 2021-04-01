@@ -1,1 +1,0 @@
-`ww_subprob_solver` solves the Weston-Watkins subproblem

@@ -35,6 +35,8 @@ title("True labels");
 subplot(2,2,3);
 y_pred = svm.predict(x);
 scatter(x(1,:),x(2,:),mk_sz,label2rgb(y_pred),'.');
+title("Predicted labels");
 
 subplot(2,2,4);
 plot_decision_regions(x,y,svm);
+title("Decision regions");
