@@ -4,7 +4,7 @@ Multiclass support vector machine (MSVM) in MATLAB. The purpose is to facilitate
 
 ## Get started
 
-1. Download and install [CVX: Matlab Software for Disciplined Convex Programming]([CVX: Matlab Software for Disciplined Convex Programming | CVX Research, Inc.](http://cvxr.com/cvx/)).
+1. Download and install [CVX: Matlab Software for Disciplined Convex Programming](http://cvxr.com/cvx/).
 2. Download this repository and save all content to a folder named ``msvmlab`` (or something else).
 3. Add the ``msvmlab`` folder and all its subfolders to path.
 4. Open  ``demos/kernel_ww_svm_qp_demo1.m``  and run the script to compute the WW-SVM on a small example. This requires CVX.
@@ -25,7 +25,7 @@ The ``solvers`` directory contains various solvers. A solver file is named via t
 
 ``<kernel/linear>_<variant>_svm_<optimization technique>.m``
 
-A "solver file" may have an empty string for ``<variant>`` and/or ``<optimization technique>``. This means that the file is an [abstract class]([Abstract Classes and Class Members - MATLAB & Simulink (mathworks.com)](https://www.mathworks.com/help/matlab/matlab_oop/abstract-classes-and-interfaces.html)), to be implemented concretely. For example, the file ``kernel_svm_qp.m`` contains code that is useful for both ``kernel_cs_svm_qp.m`` and ``kernel_ww_svm_qp.m`` two variants of MSVMS.
+A "solver file" may have an empty string for ``<variant>`` and/or ``<optimization technique>``. This means that the file is an [abstract class](https://www.mathworks.com/help/matlab/matlab_oop/abstract-classes-and-interfaces.html), to be implemented concretely. For example, the file ``kernel_svm_qp.m`` contains code that is useful for both ``kernel_cs_svm_qp.m`` and ``kernel_ww_svm_qp.m`` two variants of MSVMS.
 
 Below, we use ∅ to denote the empty string. 
 
