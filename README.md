@@ -34,8 +34,8 @@ The ``solvers`` directory contains both ``overall`` and ``subproblem`` solvers:
 │   │   ├── cs_subprob_an.m
 │   │   ├── ...
 │   │   ├── benchmarking/       # subproblem solver benchmarks
-│   │   |	├── benchmark_cs.m
-│   │   |	├── ...
+│   │   │   ├──  benchmark_cs.m
+│   │   │   ├──   ...
 ```
 
 Subproblem solvers are used in both kernel and linear overall solvers.
