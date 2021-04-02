@@ -17,4 +17,4 @@ svm = kernel_ww_svm_dc(x,y,k,C,ker_fun);
 svm.solve();
 toc
 
-plot_panels(x,y,svm);
+plot_panels1(x,y,svm);

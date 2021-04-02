@@ -8,7 +8,7 @@ function plot_panels2(x,y,svm)
 
     [padded_xlims,padded_ylims] = get_padded_lims(x);
     % Plot the results
-    figure(1);clf;
+    clf;
     mk_sz = 50;
 
     subplot(2,2,2);

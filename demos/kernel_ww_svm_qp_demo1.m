@@ -15,4 +15,4 @@ tic
 svm.solve()
 toc
 
-plot_panels(x,y,svm);
+plot_panels1(x,y,svm);

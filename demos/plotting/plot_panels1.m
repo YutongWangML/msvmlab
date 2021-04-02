@@ -9,7 +9,7 @@ function plot_panels1(x,y,svm)
 
     [padded_xlims,padded_ylims] = get_padded_lims(x);
 
-    figure(1);clf;
+    clf;
     mk_sz = 50; % marker size
 
     subplot(2,2,1); 

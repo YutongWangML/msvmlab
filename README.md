@@ -80,6 +80,5 @@ where
 
 ## TODO list
 
-- ``linear_ww_svm_bcd.m``
-- ``linear_cs_svm_bcd.m``
 - ``kernel_cs_svm_dc.m``
+- ``kernel_svm_dc.m``

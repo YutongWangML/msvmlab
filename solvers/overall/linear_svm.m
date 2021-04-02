@@ -13,10 +13,12 @@ classdef linear_svm < handle
         y   % label
         
         IC  % reflection code
+        
+        loss % which hinge to use
     end
     
     methods
-        function obj = linear_svm(x, y, k, C)
+        function obj = linear_svm(x, y, k, C, loss)
             %LINEAR_MSVM Construct an instance of this class
             %   Detailed explanation goes here
             obj.k = k;
@@ -27,9 +29,23 @@ classdef linear_svm < handle
             obj.d = size(x,1);
             IC = involution_code(k);
             obj.IC = IC;
+            obj.loss = loss;
         end
         
-        function val = normIC(obj)
+        function primal_val = get_primal_objective(obj)
+            primal_val = 0;
+            for i = 1:obj.n
+                z = 1-obj.IC.rhos{obj.y(i)}*obj.w'*obj.x(:,i);
+%                 cs_hinge = @(z) max(max(z),0);
+                primal_val = primal_val + obj.loss(z);
+            end
+            primal_val = obj.C*primal_val;
+            
+%             primal_val = primal_val + (1/2)*trace(obj.w'*obj.w*obj.IC.B);
+            primal_val = primal_val + (1/2)*obj.get_normIC();
+        end
+        
+        function val = get_normIC(obj)
             % Calculate the involution-code norm of w
 
 %             val = trace(obj.w'*obj.w*obj.IC.B); 
