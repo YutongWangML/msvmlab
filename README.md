@@ -55,12 +55,12 @@ Below, we use ∅ to denote the empty string.
   - ``∅`` = abstract
   - ``cs`` = Crammer-Singer
   - ``ww`` = Weston-Watkins
-- ``<optimization technique>`` is one of ``{∅, qp, dc, bcd, sp}`` where
+- ``<optimization technique>`` is one of ``{∅, qp, dc, bcd, gdm}`` where
   - ``∅`` = abstract
   - ``qp`` = quadratic program solver
   - ``dc`` = decomposition method
   - ``bcd`` = block coordinate descent on the dual
-  - ``sp`` = saddle-point optimization
+  - ``gdm`` = GDmax
 
 
 ### Subproblem solver file naming convention
