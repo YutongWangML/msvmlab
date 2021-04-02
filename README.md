@@ -27,13 +27,13 @@ The ``solvers`` directory contains both ``overall`` and ``subproblem`` solvers:
 
 ```
 ├── solvers/
-│   ├── overall/												# overall solvers
+│   ├── overall/        # overall solvers
 │   │   ├── kernel_cs_svm_qp.m
 │   │   ├── ...
-│   ├── subproblem/											# subproblem solvers
+│   ├── subproblem/     # subproblem solvers
 │   │   ├── cs_subprob_an.m
 │   │   ├── ...
-│   │   ├── benchmarking/								# subproblem solver benchmarks
+│   │   ├── benchmarking/       # subproblem solver benchmarks
 │   │   |		├── benchmark_cs.m
 │   │   |		├── ...
 ```
