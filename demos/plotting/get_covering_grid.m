@@ -1,17 +1,15 @@
-function x_grid = get_covering_grid(x,n)
-%GET_COVERING_GRID Summary of this function goes here
-%   Detailed explanation goes here
-
-
-    xmin = min(x(1,:));
-    xmax = max(x(1,:));
-    xwidth = xmax-xmin;
+function [x_grid,xlin,ylin]= get_covering_grid(dataset,n)
+%GET_COVERING_GRID get a n-by-n grid of points that covers the dataset
+% OUTPUT:
+% x_grid is a matrix of size n^2-by-2
+% xlin is the vector of the unique values x_grid(:,1);
+% ylin is the vector of the unique values x_grid(:,2);
     
-    ymin = min(x(2,:));
-    ymax = max(x(2,:));
-    ywidth = ymax-ymin;
+    [padded_xlims,padded_ylims] = get_padded_lims(dataset);
     
-    [X,Y] = meshgrid(linspace(xmin-0.05*xwidth,xmax+0.05*xwidth,n), ...
-        linspace(ymin-0.05*ywidth,ymax+0.05*ywidth,n));
+    xlin = linspace(padded_xlims(1),padded_xlims(2),n);
+    ylin = linspace(padded_ylims(1),padded_ylims(2),n);
+    
+    [X,Y] = meshgrid(xlin,ylin);
     x_grid = [vec(X)';vec(Y)'];
 end

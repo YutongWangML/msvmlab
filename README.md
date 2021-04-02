@@ -1,6 +1,8 @@
 # MSVMLAB
 
-Multiclass support vector machine (MSVM) in MATLAB. The purpose is to facilitate research on multiclass SVMs. As such, the focus is on clarity rather than speed.
+Multiclass support vector machine (MSVM) in MATLAB
+
+The purpose is of this package is to facilitate research on multiclass SVMs. As such, the focus is on clarity rather than speed.
 
 ## Get started
 
@@ -19,9 +21,28 @@ Multiclass support vector machine (MSVM) in MATLAB. The purpose is to facilitate
 - ``demos`` scripts that demonstrate the solvers on the synthetic datasets
 - ``utilities`` kernel functions, involution code and other mathematical conveniences go here
 
-## Solver files naming convention
+## Code organization
 
-The ``solvers`` directory contains various solvers. A solver file is named via the following formula:
+The ``solvers`` directory contains both ``overall`` and ``subproblem`` solvers:
+
+```
+├── solvers/
+│   ├── overall/												# overall solvers
+│   │   ├── kernel_cs_svm_qp.m
+│   │   ├── ...
+│   ├── subproblem/											# subproblem solvers
+│   │   ├── cs_subprob_an.m
+│   │   ├── ...
+│   │   ├── benchmarking/								# subproblem solver benchmarks
+│   │   |		├── benchmark_cs.m
+│   │   |		├── ...
+```
+
+Subproblem solvers are used in both kernel and linear overall solvers.
+
+### Overall solver file naming convention
+
+An overall solver file is named via the following formula:
 
 ``<kernel/linear>_<variant>_svm_<optimization technique>.m``
 
@@ -40,6 +61,22 @@ Below, we use ∅ to denote the empty string.
   - ``dc`` = decomposition method
   - ``bcd`` = block coordinate descent on the dual
   - ``sp`` = saddle-point optimization
+
+
+### Subproblem solver file naming convention
+
+A subproblem solver file is named via the following formula:
+
+``<variant>_subproblem_<optimization technique>.m``
+
+where
+
+- ``<variant>`` is one of ``{cs, ww}`` where 
+  - ``cs`` = Crammer-Singer
+  - ``ww`` = Weston-Watkins
+- ``<optimization technique>`` is one of ``{an, qp}`` where
+  - ``an`` = analytic exact solver
+  - ``qp`` = quadratic program solver
 
 ## TODO list
 

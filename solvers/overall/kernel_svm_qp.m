@@ -9,7 +9,7 @@ classdef kernel_svm_qp < kernel_svm
         
         KM  % n x n kernel matrix, where n is the number of instances
         Q   % QP matrix, the Hessian of the quadratic program
-
+        dual_objective  % If the QP solver is successful, then dual_objective = primal_objective
     end
     
     methods

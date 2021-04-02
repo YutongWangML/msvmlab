@@ -70,7 +70,7 @@ classdef kernel_ww_svm_dc < kernel_svm
                     *obj.alphas(:,j)...
                     *Kjj)...
                 /Kjj;
-            alphaj_new = ww_subprob_solver(v, obj.C);
+            alphaj_new = ww_subprob_an(v, obj.C);
         end
         
         function obj = update_grad(obj,deltaj)

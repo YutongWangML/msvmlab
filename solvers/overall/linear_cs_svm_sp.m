@@ -1,19 +1,19 @@
-classdef linear_cs_svm_sp < linear_svm
+classdef linear_cs_svm_sp < linear_cs_svm
     %LINEAR_MSVM_SP Saddle-point method for solving linear MSVM
     
     properties
         pT      % pT is a (n x k-1) matrix where each row pT(i,:) represents a probability vector with its last entry chopped off
+        primal_objectives % the trajectory of primal objectives
     end
     
     methods
         function obj = linear_cs_svm_sp(x,y,k,C)
-            obj@linear_svm(x, y, k, C)
-
+            obj@linear_cs_svm(x, y, k, C)
             obj.w = randn(obj.d, obj.k-1);
             obj.pT = zeros(obj.n,obj.k-1);
         end
         
-        function [obj,primal_approx] = solve(obj,max_iter, gam, decay)
+        function obj = solve(obj,max_iter, gam, decay)
             if nargin < 2
                 max_iter = 1000;
             end
@@ -23,19 +23,19 @@ classdef linear_cs_svm_sp < linear_svm
             if nargin < 4
                 decay = 0.99;
             end
-            primal_approx = [];
+            obj.primal_objectives = [];
 
             for n_steps = 1:max_iter
-                obj = obj.step_GDmax(gam);
-                val = obj.primal_objective();
-                primal_approx = [primal_approx,val];
+                obj.step_GDmax(gam);
+                val = obj.get_primal_objective();
+                obj.primal_objectives = [obj.primal_objectives, val];
                 gam = decay*gam;
             end
         end
         
         function obj = step_GDmax(obj,step_size)
-            obj = obj.update_pT();
-            obj = obj.update_w_GD(step_size);
+            obj.update_pT();
+            obj.update_w_GD(step_size);
         end
         
         function obj = update_pT(obj)

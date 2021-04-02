@@ -20,7 +20,7 @@ classdef kernel_cs_svm_qp < kernel_svm_qp
         end
         
         
-        function [dual_objective, obj] = solve(obj)
+        function obj = solve(obj)
             % solves the Crammer-Singer SVM via quadratic program using CVX
             %
             %   See https://web.eecs.umich.edu/~yutongw/post/2020/11/06/a-derivation-of-the-weston-watkins-svm-dual-problem/#primal-problem
@@ -35,7 +35,7 @@ classdef kernel_cs_svm_qp < kernel_svm_qp
             cvx_end
             
             obj.alphas = obj.reshape_dual_variables(a);
-            dual_objective = sum(a)-(1/2)*a'*obj.Q*a;
+            obj.dual_objective = sum(a)-(1/2)*a'*obj.Q*a;
         end
         
     end

@@ -1,6 +1,7 @@
 ds = syn_data_2F_3C();
 
 [x,y] = ds.trefoil(33);
+% [x,y] = ds.GMM(33);
 % [x,y] = ds.nested_circles(50,pi/3);
 
 k = 3;

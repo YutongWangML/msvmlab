@@ -31,7 +31,7 @@ classdef kernel_ww_svm_qp < kernel_svm_qp
             cvx_end
             
             obj.alphas = obj.reshape_dual_variables(a);
-            dual_objective = sum(a)-(1/2)*a'*obj.Q*a;
+            obj.dual_objective = sum(a)-(1/2)*a'*obj.Q*a;
         end
         
     end

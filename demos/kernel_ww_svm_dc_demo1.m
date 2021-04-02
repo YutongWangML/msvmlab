@@ -1,8 +1,9 @@
 rng(0);
 ds = syn_data_2F_3C();
 
-[x,y]=ds.trefoil(30);
-% [x,y] = ds.nested_circle(50,pi/2);
+% [x,y]=ds.trefoil(30);
+% [x,y] = ds.GMM(50);
+[x,y] = ds.nested_circles(50);
 n = size(x,2);
 
 
