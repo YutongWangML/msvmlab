@@ -12,7 +12,7 @@ classdef linear_svm < handle
         x   % data matrix
         y   % label
         
-        IC  % reflection code
+        IC  % involution code
         
         loss % which hinge to use
     end
@@ -48,8 +48,7 @@ classdef linear_svm < handle
         function val = get_normIC(obj)
             % Calculate the involution-code norm of w
 
-%             val = trace(obj.w'*obj.w*obj.IC.B); 
-
+%             val = trace(obj.w'*obj.w*obj.IC.B); % old formula
             val = sum(sum_square(obj.w*(obj.IC.Pi_inv)')); %  Identity: IC.B = (IC.Pi_inv)'*(IC.Pi_inv)
         end
         
